@@ -1,74 +1,203 @@
-/* CSS Styling */
+/* =========================================
+   1. CORE RESETS & MOBILE-FIRST BASE STYLES
+   ========================================= */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth; /* Smooth scrolling for navigation */
+}
+
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    margin: 0;
-    padding: 0;
     background-color: #f4f4f9;
     color: #333;
+    /* Safe-area padding for Android status bars and gesture navigation */
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+    -webkit-tap-highlight-color: transparent; /* Clean tap feedback on mobile */
 }
 
+/* Header & Profile */
 header {
     background: #2c3e50;
     color: #fff;
-    padding: 2rem 0;
+    padding: 2rem 1rem;
     text-align: center;
 }
 
 .profile-pic {
-    width: 150px;
-    height: 150px;
+    width: 130px;
+    height: 130px;
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid #fff;
-    transition: transform 0.3s ease; /* Added for interaction */
+    transition: transform 0.3s ease;
 }
 
-/* Added interaction: Image zooms slightly on hover */
 .profile-pic:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
 }
 
+header h1 {
+    font-size: 1.6rem;
+    margin-top: 10px;
+}
+
+header h2 {
+    font-size: 1.1rem;
+    font-weight: normal;
+    color: #ecf0f1;
+    border-bottom: none;
+    margin-bottom: 15px;
+}
+
+/* Navigation Touch Controls (Mobile Friendly) */
 nav ul {
     list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
     padding: 0;
 }
 
-nav ul li {
-    display: inline;
-    margin: 0 15px;
-}
-
 nav ul li a {
-    color: #18bc9c;
+    display: inline-block;
+    color: #ffffff;
+    background-color: #18bc9c;
+    padding: 10px 22px; /* Minimum 44px tap target height for touchscreens */
     text-decoration: none;
     font-weight: bold;
-    transition: color 0.3s ease; /* Added for interaction */
+    border-radius: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-/* Added interaction: Link changes color on hover */
-nav ul li a:hover {
+nav ul li a:hover,
+nav ul li a:focus {
+    background-color: #128f76;
     color: #fff;
+}
+
+/* Content Container & Sections */
+.main-container {
+    width: 100%;
+    padding: 15px;
 }
 
 section {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
     background: #fff;
+    margin-bottom: 20px;
+    padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
 }
 
 h2 {
+    font-size: 1.4rem;
+    color: #2c3e50;
     border-bottom: 2px solid #18bc9c;
     padding-bottom: 5px;
+    margin-bottom: 15px;
 }
 
+h3 {
+    font-size: 1.1rem;
+    color: #2c3e50;
+    margin: 20px 0 10px 0;
+}
+
+p {
+    margin-bottom: 12px;
+}
+
+.interests-list {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.interests-list li {
+    margin-bottom: 8px;
+}
+
+/* Skills Section Card Layout */
+.skills-grid {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.skill-card {
+    background-color: #f8f9fa;
+    border-left: 4px solid #18bc9c;
+    padding: 12px 15px;
+    border-radius: 4px;
+}
+
+.skill-card strong {
+    display: block;
+    color: #2c3e50;
+}
+
+.skill-card span {
+    font-size: 0.95rem;
+    color: #555;
+}
+
+/* Footer */
 footer {
     text-align: center;
-    padding: 20px;
+    padding: 20px 15px;
     background: #2c3e50;
     color: #fff;
-    margin-top: 20px;
+}
+
+/* =========================================
+   2. TABLET RESPONSIVE LAYOUT (>= 768px)
+   ========================================= */
+@media (min-width: 768px) {
+    .main-container {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 25px;
+    }
+
+    .profile-pic {
+        width: 150px;
+        height: 150px;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    /* Skills display in a 2-column grid */
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+}
+
+/* =========================================
+   3. DESKTOP RESPONSIVE LAYOUT (>= 1024px)
+   ========================================= */
+@media (min-width: 1024px) {
+    .main-container {
+        max-width: 960px;
+    }
+
+    section {
+        padding: 30px;
+    }
+
+    /* Skills display in a 3-column grid */
+    .skills-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
