@@ -43,7 +43,7 @@ To build and run this Cordova application:
 3. Ensure you have the Android platform added: `cordova platform add android`
 4. Build the application: `cordova build android`
 5. Run the application on a connected device or emulator: `cordova run android`
-*(Alternatively, you can open `index.html` directly in a web browser and use Developer Tools to simulate device sizes).*
+*(Alternatively, you can open `index.html` directly in a web browser and use Developer Tools to simulate device sizes): cordova run browser.*
 
 ### Mobile View
 ![Mobile](activity3_SS/ANDROID%20MOBILE%20SS1.png)
