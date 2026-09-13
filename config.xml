@@ -1,11 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="org.apache.cordova.hellocordova" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Hello Cordova</name>
-    <description>
-        A sample Apache Cordova application that responds to the deviceready event.
-    </description>
-    <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
-        Apache Cordova Team
+    <name>Achilles Student Profile</name>
+    <description>A responsive multi-page Student Profile application for Activity 4.</description>
+    <author email="achilles.albacete@example.com" href="https://github.com/">
+        Achilles A. Albacete
     </author>
     <content src="index.html" />
     <allow-intent href="http://*/*" />
