@@ -162,31 +162,7 @@ p { margin-bottom: 0.75rem; }
 
 .button-primary { background-color: var(--teal); color: #ffffff; }
 .button-secondary { background-color: transparent; color: var(--teal-dark); }
-.button-edit { background-color: var(--navy); border-color: var(--navy); color: #ffffff; cursor: pointer; font: inherit; }
 .button:hover, .button:focus { background-color: var(--teal-dark); border-color: var(--teal-dark); color: #ffffff; }
-
-.profile-detail { color: var(--muted); font-size: 0.95rem; }
-.profile-detail strong { color: var(--navy); }
-
-.edit-panel[hidden] { display: none; }
-.form-grid { display: grid; gap: 0.45rem; }
-.form-grid label { color: var(--navy); font-weight: bold; }
-.form-grid label span { color: var(--teal-dark); }
-.form-grid input,
-.form-grid textarea {
-    width: 100%;
-    padding: 0.7rem;
-    border: 1px solid #b8c2cc;
-    border-radius: 4px;
-    color: var(--text);
-    font: inherit;
-    margin-bottom: 0.75rem;
-}
-.form-grid input:focus,
-.form-grid textarea:focus { outline: 3px solid rgba(24, 188, 156, 0.3); border-color: var(--teal-dark); }
-.form-message { min-height: 1.6rem; color: #a32626; font-weight: bold; }
-.form-actions { justify-content: flex-start; }
-.form-actions button { cursor: pointer; font: inherit; }
 
 .section-panel,
 .page-panel {
