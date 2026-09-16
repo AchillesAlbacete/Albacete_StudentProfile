@@ -2,7 +2,7 @@
 
 ## Project Description
 
-This Apache Cordova application is a responsive multi-page Student Profile for Achilles A. Albacete, a Bachelor of Science in Information Technology student at Ateneo de Cagayan - Xavier University. It presents personal background, skills, projects, and contact information in a consistent web experience.
+This Apache Cordova application is a responsive multi-page Student Profile for Achilles A. Albacete, a Bachelor of Science in Information Technology student at Ateneo de Cagayan - Xavier University. It presents personal background, skills, projects, and contact information in a consistent web experience, with an editable profile powered by JavaScript.
 
 ## Application Pages
 
@@ -12,13 +12,25 @@ This Apache Cordova application is a responsive multi-page Student Profile for A
 - **Projects:** Presents three academic or personal projects with roles and technologies used.
 - **Contact:** Provides email, GitHub, and location information for collaboration or professional contact.
 
+## Profile Editing
+
+The Profile page includes an **Edit Profile** button. The editing form allows the student to update their full name, course/program, year level, About Me description, and skills. **Save** validates the required fields, updates the displayed profile immediately, and closes the form. **Cancel** closes the form without changing the current profile.
+
+## JavaScript Functionality
+
+`www/profile.js` handles the edit form submission, validates that Full Name, Course, Year Level, and About Me are not empty, updates the profile DOM elements, and controls Save and Cancel behavior. Invalid submissions are blocked and display a specific message beside the form.
+
+## Local Data Storage
+
+The profile object is saved as JSON in browser or WebView `localStorage` under the `studentProfile` key. On startup, JavaScript retrieves the saved object and displays it. If no saved information exists, the application uses the default profile values in `profile.js`.
+
 ## Navigation
 
 The application uses standard HTML links to navigate between `index.html`, `about.html`, `skills.html`, `projects.html`, and `contact.html`. Every page includes the same navigation menu, and the Profile link provides an easy way to return to the homepage. No JavaScript is used for page navigation.
 
 ## Responsive Design
 
-The shared `www/style.css` stylesheet uses a mobile-first layout, flexible grids, relative spacing, readable type sizes, and responsive breakpoints. The five pages adapt to mobile, tablet, and desktop screens without horizontal scrolling, overlapping content, distorted images, or cut-off text.
+The shared `www/style.css` stylesheet uses a mobile-first layout, flexible grids, relative spacing, readable type sizes, and responsive breakpoints. The five pages and edit form adapt to desktop, tablet, and mobile screens without horizontal scrolling, overlapping content, distorted images, or cut-off text.
 
 ## UI/UX Principles Applied
 
@@ -35,6 +47,8 @@ The shared `www/style.css` stylesheet uses a mobile-first layout, flexible grids
 3. Build Android with `cordova build android`.
 4. Run on an Android emulator or connected device with `cordova run android`.
 5. To preview in a browser, use `cordova run browser`.
+
+The browser preview supports the Activity 5 tests: edit and save all fields, cancel an edit, submit empty required fields, close and reopen the application to verify persistence, and save multiple updates to verify that the latest values remain.
 
 The Cordova entry point is `www/index.html`. The other pages are stored beside it in `www/`, so their relative links work in both the browser and Android WebView platforms.
 
