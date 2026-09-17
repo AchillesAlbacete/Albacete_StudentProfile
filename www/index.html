@@ -24,21 +24,71 @@
     </header>
 
     <main class="main-container profile-page">
-        <section class="hero-section" aria-labelledby="profile-heading">
+        <!-- Display View Section -->
+        <section id="profile-view-section" class="hero-section" aria-labelledby="display-name">
             <div class="hero-copy">
                 <p class="eyebrow">Student Profile / 2026</p>
-                <h1 id="profile-heading">Achilles A. Albacete</h1>
-                <p class="tagline">BSIT student exploring practical technology and thoughtful digital systems.</p>
-                <p>I am a third-year Information Technology student at Ateneo de Cagayan - Xavier University. I enjoy learning how technology works, building useful web experiences, and solving problems with patience and curiosity.</p>
+                <h1 id="display-name">Achilles A. Albacete</h1>
+                <p class="tagline">
+                    <span id="display-course">BSIT</span> student (<span id="display-year">3rd Year</span>) exploring practical technology and thoughtful digital systems.
+                </p>
+                <p id="display-about">I am a third-year Information Technology student at Ateneo de Cagayan - Xavier University. I enjoy learning how technology works, building useful web experiences, and solving problems with patience and curiosity.</p>
+                
+                <p class="skills-summary">
+                    <strong>Skills:</strong> <span id="display-skills">HTML, CSS, JavaScript, Web Development</span>
+                </p>
+
                 <div class="hero-actions">
-                    <a class="button button-primary" href="about.html">Read my story</a>
-                    <a class="button button-secondary" href="projects.html">View projects</a>
-                </div>
+    <!-- THIS IS THE MISSING EDIT PROFILE BUTTON -->
+    <button id="btn-edit" class="button button-primary" type="button">Edit Profile</button>
+    <a class="button button-secondary" href="projects.html">View projects</a>
+</div>
             </div>
             <div class="portrait-frame">
                 <img src="Image/264047587.png" alt="Profile picture of Achilles A. Albacete" class="profile-pic">
                 <p class="portrait-label">Information Technology Student</p>
             </div>
+        </section>
+
+        <!-- Hidden Edit Profile Section -->
+        <section id="profile-edit-section" class="section-panel hidden" aria-labelledby="edit-heading">
+            <p class="eyebrow">Modify Details</p>
+            <h2 id="edit-heading">Edit Profile Information</h2>
+            
+            <div id="error-message" class="error-banner" role="alert" aria-live="polite"></div>
+
+            <form id="edit-profile-form" class="edit-form" novalidate>
+                <div class="form-group">
+                    <label for="input-name">Full Name *</label>
+                    <input type="text" id="input-name" class="form-input" placeholder="Enter full name" autocomplete="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="input-course">Course *</label>
+                    <input type="text" id="input-course" class="form-input" placeholder="e.g., BS Information Technology" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="input-year">Year Level *</label>
+                    <input type="text" id="input-year" class="form-input" placeholder="e.g., 3rd Year" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="input-about">About Me *</label>
+                    <textarea id="input-about" class="form-input" rows="4" placeholder="Write a short description" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="input-skills">Skills</label>
+                    <input type="text" id="input-skills" class="form-input" placeholder="e.g., HTML, CSS, JavaScript">
+                </div>
+
+                <div class="form-actions">
+                    <!-- SAVE AND CANCEL BUTTONS -->
+                    <button id="btn-save" class="button button-primary" type="submit">Save Changes</button>
+                    <button id="btn-cancel" class="button button-secondary" type="button">Cancel</button>
+                </div>
+            </form>
         </section>
 
         <section class="section-panel" aria-labelledby="explore-heading">
@@ -58,5 +108,7 @@
         <p>&copy; 2026 Achilles A. Albacete. Student Profile.</p>
     </footer>
 
+    <script src="cordova.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
