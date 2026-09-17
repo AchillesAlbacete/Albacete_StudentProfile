@@ -8,7 +8,13 @@
         course: "BS Information Technology",
         yearLevel: "3rd Year",
         aboutMe: "I am a third-year Information Technology student at Ateneo de Cagayan - Xavier University. I enjoy learning how technology works, building useful web experiences, and solving problems with patience and curiosity.",
-        skills: "HTML, CSS, JavaScript, Web Development"
+        skills: "HTML, CSS, JavaScript, Web Development",
+        aboutIntro: "I am Achilles A. Albacete, a third-year Bachelor of Science in Information Technology student at Ateneo de Cagayan - Xavier University.",
+        aboutDetails: "I have lived in Cagayan de Oro City for nearly 11 years. During that time, I have learned to value discipline, determination, and continuous learning. College has taught me how to adapt, persevere, and stay focused when the workload becomes overwhelming. I enjoy quiet moments, thoughtful reflection, and learning new things independently, especially when they involve technology and digital systems.",
+        aboutPersonality: "I am naturally an introvert, but I am curious and motivated to improve myself. I chose BSIT because it is practical and future-oriented, giving me opportunities to explore networking, web development, system processes, and technology-driven problem solving. Along the way, I am also developing patience, teamwork, resilience, and confidence.",
+        interests: "Reading manhwa and manga; Learning how client and server devices work; Playing airsoft.",
+        education: "Currently pursuing a Bachelor of Science in Information Technology at Ateneo de Cagayan - Xavier University.",
+        goals: "My long-term goal is to become a dependable software developer who contributes to meaningful projects and solves real-world problems. I want to keep growing in web development, networking, and system design while building a career grounded in responsibility, collaboration, and service."
     };
 
     function readProfile() {
@@ -38,6 +44,12 @@
         document.getElementById("display-year").textContent = profile.yearLevel;
         document.getElementById("display-about").textContent = profile.aboutMe;
         document.getElementById("display-skills").textContent = profile.skills || "No skills listed yet.";
+        document.getElementById("display-about-intro").textContent = profile.aboutIntro;
+        document.getElementById("display-about-details").textContent = profile.aboutDetails;
+        document.getElementById("display-about-personality").textContent = profile.aboutPersonality;
+        document.getElementById("display-interests").textContent = profile.interests;
+        document.getElementById("display-education").textContent = profile.education;
+        document.getElementById("display-goals").textContent = profile.goals;
         document.querySelector(".profile-pic").alt = "Profile picture of " + profile.fullName;
     }
 
@@ -49,6 +61,12 @@
         document.getElementById("input-year").value = profile.yearLevel;
         document.getElementById("input-about").value = profile.aboutMe;
         document.getElementById("input-skills").value = profile.skills;
+        document.getElementById("input-about-intro").value = profile.aboutIntro;
+        document.getElementById("input-about-details").value = profile.aboutDetails;
+        document.getElementById("input-about-personality").value = profile.aboutPersonality;
+        document.getElementById("input-interests").value = profile.interests;
+        document.getElementById("input-education").value = profile.education;
+        document.getElementById("input-goals").value = profile.goals;
         setMessage("");
         document.getElementById("profile-view-section").classList.add("hidden");
         document.getElementById("profile-edit-section").classList.remove("hidden");
@@ -91,7 +109,31 @@
             return;
         }
 
-        var updatedProfile = { fullName: fullName, course: course, yearLevel: yearLevel, aboutMe: aboutMe, skills: skills };
+        var aboutIntro = document.getElementById("input-about-intro").value.trim();
+        var aboutDetails = document.getElementById("input-about-details").value.trim();
+        var aboutPersonality = document.getElementById("input-about-personality").value.trim();
+        var interests = document.getElementById("input-interests").value.trim();
+        var education = document.getElementById("input-education").value.trim();
+        var goals = document.getElementById("input-goals").value.trim();
+
+        if (!aboutIntro || !aboutDetails || !aboutPersonality || !interests || !education || !goals) {
+            setMessage("Please complete all About Me, Interests, Education, and Goals fields.");
+            return;
+        }
+
+        var updatedProfile = {
+            fullName: fullName,
+            course: course,
+            yearLevel: yearLevel,
+            aboutMe: aboutMe,
+            skills: skills,
+            aboutIntro: aboutIntro,
+            aboutDetails: aboutDetails,
+            aboutPersonality: aboutPersonality,
+            interests: interests,
+            education: education,
+            goals: goals
+        };
 
         try {
             localStorage.setItem(storageKey, JSON.stringify(updatedProfile));

@@ -14,15 +14,15 @@ This Apache Cordova application is a responsive multi-page Student Profile for A
 
 ## Profile Editing
 
-The Profile page includes an **Edit Profile** interface. Students can update their full name, course/program, year level, About Me description, and skills. **Save Changes** validates the required fields, stores the updated profile, refreshes the visible profile content immediately, and closes the form. **Cancel** discards unsaved edits and returns to the profile view.
+The Profile page includes an **Edit Profile** interface. Students can update their full name, course/program, year level, About Me content, interests, educational background, goals and aspirations, and skills. **Save Changes** validates the required fields, stores the updated profile, refreshes the visible Profile page content immediately, and closes the form. **Cancel** discards unsaved edits and returns to the profile view.
 
 ## JavaScript Functionality
 
-The `www/script.js` file handles form events and DOM manipulation. It opens and closes the edit interface, validates Full Name, Course, Year Level, and About Me, displays specific feedback for invalid fields, updates the profile after a valid Save, and keeps Cancel changes from being applied. It also guards against malformed stored JSON and prevents duplicate setup when Cordova fires its device-ready event.
+The `www/script.js` file handles form events and DOM manipulation. It opens and closes the edit interface, validates Full Name, Course, Year Level, About Me, Interests, Educational Background, and Goals and Aspirations, displays specific feedback for invalid fields, updates every editable Profile section after a valid Save, and keeps Cancel changes from being applied. It also guards against malformed stored JSON and prevents duplicate setup when Cordova fires its device-ready event.
 
 ## Local Data Storage
 
-The profile object is stored as JSON in browser or Android WebView `localStorage` under the `studentProfile` key. On startup, JavaScript retrieves the saved values and displays them. If no saved values exist, the application uses the default profile information in `www/script.js`.
+The complete profile object, including the Profile page's About Me, interests, educational background, goals, and skills, is stored as JSON in browser or Android WebView `localStorage` under the `studentProfile` key. On startup, JavaScript retrieves the saved values and displays them. If no saved values exist, the application uses the default profile information in `www/script.js`.
 
 ## Navigation
 
@@ -56,10 +56,11 @@ The Cordova entry point is `www/index.html`. The other pages are stored beside i
 
 Activity 5 captures include the profile view, the Edit Profile form, the updated profile after saving, and the Contact page.
 
-![Student Profile](activity4_SS/Profile_ss1_act4.jpg)
-![Edit Profile](activity4_SS/Edit_Profile_act5.png)
-![Updated Profile](activity4_SS/Updated_Profile_act5.png)
-![Contact](activity4_SS/Contacts_ss5_act4.jpg)
+![Student Profile](activity5_SS/Act5_SS1.png)
+![Edit Profile](activity5_SS/Act5_SS2.png)
+![Updated Profile](activity5_SS/Act5_SS3.png)
+![Error Validation](activity5_SS/Act5_SS4.png)
+![Contact](activity5_SS/Act5_SS5.png)
 
 Screenshots from the responsive Activity 3 foundation are retained in `activity3_SS/` as device-size references. Capture the five Activity 4 pages after running the application and add them here using the following names:
 

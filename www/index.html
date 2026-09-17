@@ -24,25 +24,17 @@
     </header>
 
     <main class="main-container profile-page">
-        <!-- Display View Section -->
         <section id="profile-view-section" class="hero-section" aria-labelledby="display-name">
             <div class="hero-copy">
                 <p class="eyebrow">Student Profile / 2026</p>
                 <h1 id="display-name">Achilles A. Albacete</h1>
-                <p class="tagline">
-                    <span id="display-course">BSIT</span> student (<span id="display-year">3rd Year</span>) exploring practical technology and thoughtful digital systems.
-                </p>
+                <p class="tagline"><span id="display-course">BSIT</span> student (<span id="display-year">3rd Year</span>) exploring practical technology and thoughtful digital systems.</p>
                 <p id="display-about">I am a third-year Information Technology student at Ateneo de Cagayan - Xavier University. I enjoy learning how technology works, building useful web experiences, and solving problems with patience and curiosity.</p>
-                
-                <p class="skills-summary">
-                    <strong>Skills:</strong> <span id="display-skills">HTML, CSS, JavaScript, Web Development</span>
-                </p>
-
+                <p class="skills-summary"><strong>Skills:</strong> <span id="display-skills">HTML, CSS, JavaScript, Web Development</span></p>
                 <div class="hero-actions">
-    <!-- THIS IS THE MISSING EDIT PROFILE BUTTON -->
-    <button id="btn-edit" class="button button-primary" type="button">Edit Profile</button>
-    <a class="button button-secondary" href="projects.html">View projects</a>
-</div>
+                    <button id="btn-edit" class="button button-primary" type="button">Edit Profile</button>
+                    <a class="button button-secondary" href="projects.html">View projects</a>
+                </div>
             </div>
             <div class="portrait-frame">
                 <img src="Image/264047587.png" alt="Profile picture of Achilles A. Albacete" class="profile-pic">
@@ -50,63 +42,92 @@
             </div>
         </section>
 
-        <!-- Hidden Edit Profile Section -->
         <section id="profile-edit-section" class="section-panel hidden" aria-labelledby="edit-heading">
             <p class="eyebrow">Modify Details</p>
             <h2 id="edit-heading">Edit Profile Information</h2>
-            
             <div id="error-message" class="error-banner" role="alert" aria-live="polite"></div>
-
             <form id="edit-profile-form" class="edit-form" novalidate>
                 <div class="form-group">
                     <label for="input-name">Full Name *</label>
                     <input type="text" id="input-name" class="form-input" placeholder="Enter full name" autocomplete="name" required>
                 </div>
-
                 <div class="form-group">
                     <label for="input-course">Course *</label>
                     <input type="text" id="input-course" class="form-input" placeholder="e.g., BS Information Technology" required>
                 </div>
-
                 <div class="form-group">
                     <label for="input-year">Year Level *</label>
                     <input type="text" id="input-year" class="form-input" placeholder="e.g., 3rd Year" required>
                 </div>
-
                 <div class="form-group">
                     <label for="input-about">About Me *</label>
                     <textarea id="input-about" class="form-input" rows="4" placeholder="Write a short description" required></textarea>
                 </div>
-
+                <div class="form-group">
+                    <label for="input-about-intro">About Me Introduction *</label>
+                    <textarea id="input-about-intro" class="form-input" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="input-about-details">About Me Details *</label>
+                    <textarea id="input-about-details" class="form-input" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="input-about-personality">About Me Personal Details *</label>
+                    <textarea id="input-about-personality" class="form-input" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="input-interests">Interests *</label>
+                    <textarea id="input-interests" class="form-input" rows="3" placeholder="Separate interests with semicolons" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="input-education">Educational Background *</label>
+                    <textarea id="input-education" class="form-input" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="input-goals">Goals and Aspirations *</label>
+                    <textarea id="input-goals" class="form-input" rows="4" required></textarea>
+                </div>
                 <div class="form-group">
                     <label for="input-skills">Skills</label>
                     <input type="text" id="input-skills" class="form-input" placeholder="e.g., HTML, CSS, JavaScript">
                 </div>
-
                 <div class="form-actions">
-                    <!-- SAVE AND CANCEL BUTTONS -->
                     <button id="btn-save" class="button button-primary" type="submit">Save Changes</button>
                     <button id="btn-cancel" class="button button-secondary" type="button">Cancel</button>
                 </div>
             </form>
         </section>
 
-        <section class="section-panel" aria-labelledby="explore-heading">
-            <p class="eyebrow">Explore the profile</p>
-            <h2 id="explore-heading">A closer look at my work and direction.</h2>
-            <div class="link-grid">
-                <a class="feature-link" href="about.html"><strong>01 / About</strong><span>Background, interests, education, and aspirations.</span></a>
-                <a class="feature-link" href="skills.html"><strong>02 / Skills</strong><span>Technical abilities and the habits behind them.</span></a>
-                <a class="feature-link" href="projects.html"><strong>03 / Projects</strong><span>Selected academic and personal work.</span></a>
-                <a class="feature-link" href="contact.html"><strong>04 / Contact</strong><span>Ways to connect and collaborate.</span></a>
+        <section class="page-panel" aria-labelledby="about-me-heading">
+            <p class="eyebrow">About Me</p>
+            <h2 id="about-me-heading">The person behind the profile.</h2>
+            <div class="page-intro"><p id="display-about-intro">I am Achilles A. Albacete, a third-year Bachelor of Science in Information Technology student at Ateneo de Cagayan - Xavier University.</p></div>
+            <p id="display-about-details">I have lived in Cagayan de Oro City for nearly 11 years. During that time, I have learned to value discipline, determination, and continuous learning. College has taught me how to adapt, persevere, and stay focused when the workload becomes overwhelming. I enjoy quiet moments, thoughtful reflection, and learning new things independently, especially when they involve technology and digital systems.</p>
+            <p id="display-about-personality">I am naturally an introvert, but I am curious and motivated to improve myself. I chose BSIT because it is practical and future-oriented, giving me opportunities to explore networking, web development, system processes, and technology-driven problem solving. Along the way, I am also developing patience, teamwork, resilience, and confidence.</p>
+            <h2>Interests</h2>
+            <p id="display-interests">Reading manhwa and manga; Learning how client and server devices work; Playing airsoft.</p>
+            <h2>Educational Background</h2>
+            <p id="display-education">Currently pursuing a Bachelor of Science in Information Technology at Ateneo de Cagayan - Xavier University.</p>
+            <h2>Goals and Aspirations</h2>
+            <p id="display-goals">My long-term goal is to become a dependable software developer who contributes to meaningful projects and solves real-world problems. I want to keep growing in web development, networking, and system design while building a career grounded in responsibility, collaboration, and service.</p>
+        </section>
+
+        <section class="page-panel" aria-labelledby="my-skills-heading">
+            <p class="eyebrow">My Skills</p>
+            <h2 id="my-skills-heading">Tools, practices, and strengths.</h2>
+            <p class="page-intro">I am building a practical foundation in technology while strengthening the habits that help me work well with others.</p>
+            <div class="card-grid">
+                <article class="info-card"><strong>HTML and CSS</strong><p>I create structured pages and responsive layouts that remain readable across screen sizes.</p></article>
+                <article class="info-card"><strong>JavaScript</strong><p>I understand DOM manipulation and use it to add purposeful behavior to web pages.</p></article>
+                <article class="info-card"><strong>Web Development</strong><p>I combine page structure, styling, and accessibility principles into usable web experiences.</p></article>
+                <article class="info-card"><strong>Networking</strong><p>I am interested in how client and server devices communicate across a network.</p></article>
+                <article class="info-card"><strong>Problem Solving</strong><p>I break technical problems into smaller steps and test solutions carefully.</p></article>
+                <article class="info-card"><strong>Teamwork and Time Management</strong><p>I collaborate on group work, communicate progress, and organize tasks around deadlines.</p></article>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 Achilles A. Albacete. Student Profile.</p>
-    </footer>
+    <footer><p>&copy; 2026 Achilles A. Albacete. Student Profile.</p></footer>
 
     <script src="cordova.js"></script>
     <script src="script.js"></script>
