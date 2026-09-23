@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content: blob:;">
     <title>Profile | Achilles A. Albacete</title>
     <link rel="stylesheet" href="style.css">
 </head>
@@ -37,7 +38,12 @@
                 </div>
             </div>
             <div class="portrait-frame">
-                <img src="Image/264047587.png" alt="Profile picture of Achilles A. Albacete" class="profile-pic">
+                <!-- Added id="profile-pic" -->
+                <img id="profile-pic" src="Image/264047587.png" alt="Profile picture of Achilles A. Albacete" class="profile-pic">
+                
+                <!-- Added button to open the camera -->
+                <button id="btn-change-pic" class="button button-secondary" type="button" style="margin-top: 10px; margin-bottom: 10px;">Change Picture</button>
+                
                 <p class="portrait-label">Information Technology Student</p>
             </div>
         </section>

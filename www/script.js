@@ -3,6 +3,7 @@
 
     var storageKey = "studentProfile";
     var initialized = false;
+    
     var defaultProfile = {
         fullName: "Achilles A. Albacete",
         course: "BS Information Technology",
@@ -14,7 +15,8 @@
         aboutPersonality: "I am naturally an introvert, but I am curious and motivated to improve myself. I chose BSIT because it is practical and future-oriented, giving me opportunities to explore networking, web development, system processes, and technology-driven problem solving. Along the way, I am also developing patience, teamwork, resilience, and confidence.",
         interests: "Reading manhwa and manga; Learning how client and server devices work; Playing airsoft.",
         education: "Currently pursuing a Bachelor of Science in Information Technology at Ateneo de Cagayan - Xavier University.",
-        goals: "My long-term goal is to become a dependable software developer who contributes to meaningful projects and solves real-world problems. I want to keep growing in web development, networking, and system design while building a career grounded in responsibility, collaboration, and service."
+        goals: "My long-term goal is to become a dependable software developer who contributes to meaningful projects and solves real-world problems. I want to keep growing in web development, networking, and system design while building a career grounded in responsibility, collaboration, and service.",
+        profilePic: "Image/264047587.png" 
     };
 
     function readProfile() {
@@ -50,7 +52,12 @@
         document.getElementById("display-interests").textContent = profile.interests;
         document.getElementById("display-education").textContent = profile.education;
         document.getElementById("display-goals").textContent = profile.goals;
-        document.querySelector(".profile-pic").alt = "Profile picture of " + profile.fullName;
+        
+        var profileImg = document.getElementById("profile-pic");
+        if (profileImg) {
+            profileImg.src = profile.profilePic;
+            profileImg.alt = "Profile picture of " + profile.fullName;
+        }
     }
 
     function openEditForm() {
@@ -67,6 +74,7 @@
         document.getElementById("input-interests").value = profile.interests;
         document.getElementById("input-education").value = profile.education;
         document.getElementById("input-goals").value = profile.goals;
+        
         setMessage("");
         document.getElementById("profile-view-section").classList.add("hidden");
         document.getElementById("profile-edit-section").classList.remove("hidden");
@@ -88,26 +96,10 @@
         var aboutMe = document.getElementById("input-about").value.trim();
         var skills = document.getElementById("input-skills").value.trim();
 
-        if (!fullName) {
-            setMessage("Please enter your full name.");
-            document.getElementById("input-name").focus();
-            return;
-        }
-        if (!course) {
-            setMessage("Please enter your course or program.");
-            document.getElementById("input-course").focus();
-            return;
-        }
-        if (!yearLevel) {
-            setMessage("Please enter your year level.");
-            document.getElementById("input-year").focus();
-            return;
-        }
-        if (!aboutMe) {
-            setMessage("Please enter your About Me description.");
-            document.getElementById("input-about").focus();
-            return;
-        }
+        if (!fullName) { setMessage("Please enter your full name."); document.getElementById("input-name").focus(); return; }
+        if (!course) { setMessage("Please enter your course or program."); document.getElementById("input-course").focus(); return; }
+        if (!yearLevel) { setMessage("Please enter your year level."); document.getElementById("input-year").focus(); return; }
+        if (!aboutMe) { setMessage("Please enter your About Me description."); document.getElementById("input-about").focus(); return; }
 
         var aboutIntro = document.getElementById("input-about-intro").value.trim();
         var aboutDetails = document.getElementById("input-about-details").value.trim();
@@ -121,6 +113,8 @@
             return;
         }
 
+        var currentProfile = readProfile();
+
         var updatedProfile = {
             fullName: fullName,
             course: course,
@@ -132,7 +126,8 @@
             aboutPersonality: aboutPersonality,
             interests: interests,
             education: education,
-            goals: goals
+            goals: goals,
+            profilePic: currentProfile.profilePic 
         };
 
         try {
@@ -146,6 +141,65 @@
         closeEditForm();
     }
 
+    function openCamera() {
+        if (!navigator.camera) {
+            alert("Camera hardware is not accessible on this device.");
+            return;
+        }
+
+        var cameraOptions = {
+            quality: 50,                                      
+            destinationType: Camera.DestinationType.DATA_URL, 
+            sourceType: Camera.PictureSourceType.CAMERA,     
+            encodingType: Camera.EncodingType.JPEG,           
+            mediaType: Camera.MediaType.PICTURE,             
+            correctOrientation: true,                         
+            targetWidth: 500,                                 
+            targetHeight: 500,                                
+            saveToPhotoAlbum: false                          
+        };
+
+        navigator.camera.getPicture(onCameraSuccess, onCameraFail, cameraOptions);
+    }
+
+    function onCameraFail(message) {
+        var msg = (message || "").toLowerCase();
+        
+        if (msg.includes("cancel") || msg.includes("no image") || msg.includes("has rejected")) {
+            console.log("User cancelled camera capture.");
+            return;
+        }
+        
+        alert("Unable to access the camera. Please check your device permissions. Error: " + message);
+    }
+
+    function onCameraSuccess(imageData) {
+    if (!imageData) return;
+
+    // Remove linebreaks and whitespace inserted by Android native camera
+    var cleanData = imageData.replace(/[\r\n\s]+/g, "");
+
+    // Prevent duplicating "data:image/jpeg;base64," if it already exists
+    var imageSrc = cleanData.indexOf("data:image") === 0 
+        ? cleanData 
+        : "data:image/jpeg;base64," + cleanData;
+
+    var profileImg = document.getElementById("profile-pic");
+    if (profileImg) {
+        profileImg.src = imageSrc;
+    }
+
+    var currentProfile = readProfile();
+    currentProfile.profilePic = imageSrc;
+
+    try {
+        localStorage.setItem(storageKey, JSON.stringify(currentProfile));
+        console.log("Photo successfully saved and updated!");
+    } catch (error) {
+        console.error("LocalStorage save error:", error);
+    }
+}
+
     function initProfile() {
         if (initialized) {
             return;
@@ -153,9 +207,15 @@
 
         initialized = true;
         renderProfile(readProfile());
+        
         document.getElementById("btn-edit").addEventListener("click", openEditForm);
         document.getElementById("btn-cancel").addEventListener("click", closeEditForm);
         document.getElementById("edit-profile-form").addEventListener("submit", saveProfile);
+
+        var changePicBtn = document.getElementById("btn-change-pic");
+        if (changePicBtn) {
+            changePicBtn.addEventListener("click", openCamera);
+        }
     }
 
     document.addEventListener("DOMContentLoaded", initProfile);

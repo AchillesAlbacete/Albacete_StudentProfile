@@ -1,77 +1,91 @@
 # Achilles Student Profile
 
-## Project Description
+## 1. Project Description
 
-This Apache Cordova application is a responsive multi-page Student Profile for Achilles A. Albacete, a Bachelor of Science in Information Technology student at Ateneo de Cagayan - Xavier University. It presents personal background, skills, projects, and contact information in a consistent web experience.
+This Apache Cordova Android application is a responsive multi-page Student Profile for Achilles A. Albacete, a Bachelor of Science in Information Technology student at Ateneo de Cagayan - Xavier University. It presents personal background, skills, projects, and contact information and includes editable profile data plus camera-based profile photo updates.
 
-## Application Pages
+## 2. Application Pages
 
-- **Profile:** The homepage introduces Achilles and links to every part of the profile.
-- **About:** Provides personal background, interests, educational background, and goals.
-- **Skills:** Describes technical, networking, web development, problem-solving, and collaboration skills.
-- **Projects:** Presents three academic or personal projects with roles and technologies used.
-- **Contact:** Provides email, GitHub, and location information for collaboration or professional contact.
+- **Profile (`index.html`):** Displays the profile summary, profile photo, editable information, and the Change Picture camera button.
+- **About (`about.html`):** Provides personal background, interests, educational background, and goals.
+- **Skills (`skills.html`):** Describes web development, networking, problem-solving, and collaboration skills.
+- **Projects (`projects.html`):** Presents academic or personal projects, roles, and technologies used.
+- **Contact (`contact.html`):** Provides contact and location information.
 
-## Profile Editing
+Each page uses the same navigation menu and shared stylesheet.
 
-The Profile page includes an **Edit Profile** interface. Students can update their full name, course/program, year level, About Me content, interests, educational background, goals and aspirations, and skills. **Save Changes** validates the required fields, stores the updated profile, refreshes the visible Profile page content immediately, and closes the form. **Cancel** discards unsaved edits and returns to the profile view.
+## 3. Profile Editing
 
-## JavaScript Functionality
+The Profile page includes an **Edit Profile** form. A student can update the full name, course, year level, About Me content, About Me details, interests, educational background, goals and aspirations, and skills. **Save Changes** trims and validates the required fields, stores the updated profile, refreshes the visible content immediately, and closes the form. **Cancel** closes the form without applying unsaved edits.
 
-The `www/script.js` file handles form events and DOM manipulation. It opens and closes the edit interface, validates Full Name, Course, Year Level, About Me, Interests, Educational Background, and Goals and Aspirations, displays specific feedback for invalid fields, updates every editable Profile section after a valid Save, and keeps Cancel changes from being applied. It also guards against malformed stored JSON and prevents duplicate setup when Cordova fires its device-ready event.
+## 4. Camera Integration
 
-## Local Data Storage
+Activity 6 uses `cordova-plugin-camera`. Pressing **Change Picture** calls the Cordova camera API with these settings:
 
-The complete profile object, including the Profile page's About Me, interests, educational background, goals, and skills, is stored as JSON in browser or Android WebView `localStorage` under the `studentProfile` key. On startup, JavaScript retrieves the saved values and displays them. If no saved values exist, the application uses the default profile information in `www/script.js`.
+- Camera source instead of the photo library
+- JPEG encoding, quality 50, and a 500 by 500 target size
+- Corrected device orientation
+- Base64 data returned directly to the application
+- No automatic save to the device photo album
 
-## Navigation
+The captured image is shown immediately in the profile image element. The implementation also prevents a duplicate `data:image/jpeg;base64,` prefix when Android returns a value that already contains one.
 
-The application uses standard HTML links to navigate between `index.html`, `about.html`, `skills.html`, `projects.html`, and `contact.html`. Every page includes the same navigation menu, and the Profile link provides an easy way to return to the homepage. No JavaScript is used for page navigation.
+## 5. Device Feature Integration
 
-## Responsive Design
+The application uses the physical Android device camera through `cordova-plugin-camera`. `www/index.html` loads `cordova.js`, and `www/script.js` waits for Cordova initialization while also supporting browser DOM initialization. On a device without camera access, the app displays an unavailable-camera message. Camera cancellation is ignored without showing an error alert.
 
-The shared `www/style.css` stylesheet uses a mobile-first layout, flexible grids, relative spacing, readable type sizes, and responsive breakpoints. The five pages adapt to mobile, tablet, and desktop screens without horizontal scrolling, overlapping content, distorted images, or cut-off text.
+## 6. Image Handling
 
-## UI/UX Principles Applied
+The default profile image is `www/Image/264047587.png`. After a successful capture, JavaScript removes whitespace and line breaks from the returned Base64 value, creates a valid JPEG data URL when necessary, assigns it to the profile image, and saves it in the profile object as `profilePic`. The complete object is serialized to `localStorage` with the key `studentProfile`, so the image remains available after closing and reopening the app.
 
-- **Consistency:** All pages share the same header, navigation, typography, colors, spacing, cards, and footer.
-- **Visual hierarchy:** Page labels, headings, introductory text, and supporting details use distinct sizes and colors.
-- **Usability:** The active navigation link shows the current page, while clear links connect users to the next section.
-- **Readability:** Content uses a constrained width, comfortable line height, strong contrast, and responsive spacing.
-- **Accessibility:** Semantic headings, descriptive image alternative text, labeled navigation, visible focus states, and meaningful links are included.
+## 7. Error Handling
 
-## How to Run
+The app handles the following cases:
 
-1. Clone this repository and open a terminal in the project directory.
+- Missing camera access: displays a camera hardware or permissions message.
+- User cancellation: exits quietly when the camera reports cancellation or no image.
+- Storage failure: reports that the profile could not be saved on the device.
+- Malformed stored JSON: removes the invalid value and restores the default profile.
+- Empty required profile fields: shows validation feedback and focuses the invalid field.
+
+## 8. Responsive Design
+
+The shared `www/style.css` stylesheet uses a mobile-first layout, flexible grids, relative spacing, readable type sizes, and responsive breakpoints. The pages adapt to phone, tablet, and desktop screens without horizontal scrolling, overlapping content, distorted images, or cut-off text. Semantic headings, labeled navigation, descriptive image alternative text, and visible focus states support accessibility.
+
+## 9. How to Run
+
+1. Open a terminal in the project directory.
 2. Install dependencies with `npm install`.
-3. Build Android with `cordova build android`.
-4. Run on an Android emulator or connected device with `cordova run android`.
-5. To preview in a browser, use `cordova run browser`.
+3. Build the Android application with `cordova build android`.
+4. Connect an Android phone with USB debugging enabled, then run `cordova run android --device`.
+5. Grant camera permission when Android requests it.
+6. To preview the non-camera pages in a browser, run `cordova run browser`.
 
-The Activity 5 test flow is: edit and save all profile fields, cancel an edit, submit empty required fields, close and reopen the application to verify persistence, and save more than one update to confirm the latest values are displayed.
+The Cordova entry point is `www/index.html`. The Android camera workflow must be tested on a device or emulator that provides camera access; browser preview does not reproduce the native camera feature.
 
-The Cordova entry point is `www/index.html`. The other pages are stored beside it in `www/`, so their relative links work in both the browser and Android WebView platforms.
+## 10. Screenshots
 
-## Application Screenshots
+The following Activity 6 screenshots demonstrate camera operation and data persistence on a physical Huawei device:
 
-Activity 5 captures include the profile view, the Edit Profile form, the updated profile after saving, and the Contact page.
+![Before Capture](activity6_SS/Act6_BEFOREImage.jpg)
+*Profile page before capture, displaying the default avatar and Change Picture button.*
 
-![Student Profile](activity5_SS/Act5_SS1.png)
-![Edit Profile](activity5_SS/Act5_SS2.png)
-![Updated Profile](activity5_SS/Act5_SS3.png)
-![Error Validation](activity5_SS/Act5_SS4.png)
-![Contact](activity5_SS/Act5_SS5.png)
+![Captured Image](activity6_SS/capturedImage.jpg)
+*Profile page immediately after taking a photo, rendering the new captured picture.*
 
-Screenshots from the responsive Activity 3 foundation are retained in `activity3_SS/` as device-size references. Capture the five Activity 4 pages after running the application and add them here using the following names:
+![Persisted Image](activity6_SS/PersistedImage.jpg)
+*Profile page after closing and reopening the app, demonstrating localStorage persistence.*
 
-![Profile page](activity4_SS/Profile_ss1_act4.jpg)
-![About page](activity4_SS/About_ss2_act4.jpg)
-![Skills page](activity4_SS/Skills_ss3_act4.jpg)
-![Projects page](activity4_SS/Projects_ss4_act4.jpg)
-![Contact page](activity4_SS/Contacts_ss5_act4.jpg)
+### Capture & Deployment Steps:
+1. Run the `activity-6-camera` branch on your physical device (`cordova run android --device`).
+2. Capture a screenshot of the default Profile page and save it as `activity6_SS/Act6_BEFOREImage.jpg`.
+3. Tap **Change Picture**, grant camera permissions, take a photo, confirm it, and capture the updated screen as `activity6_SS/capturedImage.jpg`.
+4. Close the app completely, reopen it, and capture the persisted screen as `activity6_SS/PersistedImage.jpg`.
+5. Commit all images, merge `activity-6-camera` into `main`, and push both branches to GitHub.
 
-The existing Activity 3 responsive references are also available below:
+---
 
-![Mobile reference](activity3_SS/ANDROID%20MOBILE%20SS1.png)
-![Tablet reference](activity3_SS/ANDROID%20TABLET%20SS1.png)
-![Desktop reference](activity3_SS/ANDROID%20DESKTOP%20SS1.png)
+### Previous Activity References
+- **Activity 5 Captures:** `activity5_SS/`
+- **Activity 4 Captures:** `activity4_SS/`
+- **Activity 3 Responsive References:** `activity3_SS/`
