@@ -70,6 +70,9 @@ The following Activity 6 screenshots demonstrate camera operation and data persi
 ![Before Capture](activity6_SS/Act6_BEFOREImage.jpg)
 *Profile page before capture, displaying the default avatar and Change Picture button.*
 
+![Camera Interface](activity6_SS/CameraSS.jpg)
+*The native device camera interface opened after selecting "Change Picture", prompting the user to take a new profile photo.*
+
 ![Captured Image](activity6_SS/capturedImage.jpg)
 *Profile page immediately after taking a photo, rendering the new captured picture.*
 
