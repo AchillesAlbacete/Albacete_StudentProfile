@@ -104,11 +104,13 @@ body {
 }
 
 .profile-pic {
+    display: block;
     width: 130px;
     height: 130px;
     border: 3px solid #ffffff;
     border-radius: 50%;
     object-fit: cover;
+    object-position: center;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
 }
 
@@ -156,8 +158,10 @@ p {
     font-size: 0.95rem;
 }
 
-.portrait-frame { 
-    text-align: center; 
+.portrait-frame {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .portrait-label { 
