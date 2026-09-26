@@ -164,12 +164,6 @@ p {
     align-items: center;
 }
 
-.portrait-label { 
-    color: var(--muted); 
-    font-size: 0.85rem; 
-    margin-top: 0.4rem; 
-}
-
 .hero-actions {
     display: flex;
     flex-wrap: wrap;
