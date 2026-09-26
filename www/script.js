@@ -2,49 +2,23 @@
     "use strict";
 
     // --- API CONFIGURATION ---
-    var API_BASE_URL = window.STUDENT_PROFILE_API_BASE_URL;
+    var API_BASE_URL = "http://192.168.1.6:3000/api";
     
     var initialized = false;
     var currentProfileData = {}; // Stores the latest fetched data
     var defaultProfileContent = {};
-
-    function authHeaders() {
-        return {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + localStorage.getItem("student_profile_token")
-        };
-    }
-
-    function clearAuthentication() {
-        localStorage.removeItem("authenticated_student_id");
-        localStorage.removeItem("student_profile_token");
-    }
 
     // --- AUTHENTICATION FLOW ---
     function checkAuth() {
         var studentId = localStorage.getItem("authenticated_student_id");
         var loginScreen = document.getElementById("login-screen");
 
-        var token = localStorage.getItem("student_profile_token");
-        if (!studentId || !token) {
+        if (!studentId) {
             loginScreen.style.display = "flex";
-            return;
+        } else {
+            loginScreen.style.display = "none";
+            fetchProfile(studentId);
         }
-
-        fetch(`${API_BASE_URL}/session`, { headers: authHeaders() })
-            .then(async function (response) {
-                if (!response.ok) throw new Error("Your session has expired. Please log in again.");
-                var session = await response.json();
-                if (session.studentId !== studentId) throw new Error("Your session is not valid for this profile.");
-                loginScreen.style.display = "none";
-                await fetchProfile(studentId);
-            })
-            .catch(function (error) {
-                clearAuthentication();
-                loginScreen.style.display = "flex";
-                document.getElementById("login-error").textContent = error.message;
-                document.getElementById("login-error").style.display = "block";
-            });
     }
 
     async function handleLogin(event) {
@@ -74,13 +48,11 @@
                 return;
             }
 
-            // Store the server-issued session token for protected API requests.
             localStorage.setItem("authenticated_student_id", data.user.student_id);
-            localStorage.setItem("student_profile_token", data.token);
             errorDiv.style.display = "none";
             document.getElementById("login-screen").style.display = "none";
 
-            await fetchProfile(data.user.student_id);
+            fetchProfile(data.user.student_id);
 
         } catch (error) {
             errorDiv.textContent = "Unable to connect to server. Check your network or IP address.";
@@ -89,62 +61,19 @@
         }
     }
 
-    async function handleRegister(event) {
-        event.preventDefault();
-        var errorDiv = document.getElementById("register-error");
-        var account = {
-            studentId: document.getElementById("register-id").value.trim(),
-            password: document.getElementById("register-password").value,
-            name: document.getElementById("register-name").value.trim(),
-            course: document.getElementById("register-course").value.trim(),
-            yearLevel: document.getElementById("register-year").value.trim()
-        };
-
-        try {
-            var response = await fetch(`${API_BASE_URL}/students`, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(account)
-            });
-            var result = await response.json();
-            if (!response.ok) throw new Error(result.error || "Unable to create student account.");
-
-            document.getElementById("login-id").value = account.studentId;
-            document.getElementById("login-password").value = "";
-            document.getElementById("register-panel").classList.add("hidden");
-            document.getElementById("login-form").style.display = "block";
-            document.getElementById("show-register").style.display = "block";
-            document.getElementById("login-error").textContent = "Account created. Log in with your new credentials.";
-            document.getElementById("login-error").style.display = "block";
-        } catch (error) {
-            errorDiv.textContent = error.message || "Unable to connect to server.";
-            errorDiv.style.display = "block";
-        }
-    }
-
     // --- DATABASE CRUD OPERATIONS ---
 
     // 1. READ: Fetch profile from backend
     async function fetchProfile(studentId) {
         try {
-            var response = await fetch(`${API_BASE_URL}/profile/${studentId}`, { headers: authHeaders() });
-            if (response.status === 401) {
-                clearAuthentication();
-                document.getElementById("login-screen").style.display = "flex";
-                return false;
-            }
-            if (!response.ok) throw new Error("Unable to retrieve your profile. Please try again.");
+            var response = await fetch(`${API_BASE_URL}/profile/${studentId}`);
+            if (!response.ok) throw new Error("Profile not found");
 
             currentProfileData = await response.json();
             renderProfile(currentProfileData);
-            return true;
         } catch (error) {
             console.error("Fetch error:", error);
-            var loginError = document.getElementById("login-error");
-            loginError.textContent = "Unable to retrieve your profile. Please try again.";
-            loginError.style.display = "block";
-            document.getElementById("login-screen").style.display = "flex";
-            return false;
+            alert("Unable to retrieve your profile from the database.");
         }
     }
 
@@ -160,20 +89,8 @@
         var course = document.getElementById("input-course").value.trim();
         var yearLevel = document.getElementById("input-year").value.trim();
 
-        var requiredProfileFields = [
-            fullName,
-            course,
-            yearLevel,
-            document.getElementById("input-about").value.trim(),
-            document.getElementById("input-about-intro").value.trim(),
-            document.getElementById("input-about-details").value.trim(),
-            document.getElementById("input-about-personality").value.trim(),
-            document.getElementById("input-interests").value.trim(),
-            document.getElementById("input-education").value.trim(),
-            document.getElementById("input-goals").value.trim()
-        ];
-        if (requiredProfileFields.some(function (value) { return !value; })) {
-            setMessage("Complete all required profile fields before saving.", false);
+        if (!fullName || !course || !yearLevel) {
+            setMessage("Please enter Name, Course, and Year Level.", false);
             return;
         }
 
@@ -201,7 +118,7 @@
         try {
             var response = await fetch(`${API_BASE_URL}/profile/${studentId}`, {
                 method: "PUT",
-                headers: authHeaders(),
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(updatedPayload)
             });
 
@@ -209,7 +126,7 @@
 
             if (response.ok) {
                 setMessage("Profile Updated Successfully", true);
-                await fetchProfile(studentId);
+                fetchProfile(studentId);
                 setTimeout(closeEditForm, 1500); // Close form after 1.5 seconds
             } else {
                 setMessage(result.error || "Unable to update profile.", false);
@@ -217,24 +134,6 @@
         } catch (error) {
             console.error("Save error:", error);
             setMessage("Database connection failed.", false);
-        }
-    }
-
-    async function deleteProfile() {
-        var studentId = localStorage.getItem("authenticated_student_id");
-        if (!studentId || !window.confirm("Delete this student account and its profile permanently?")) return;
-
-        try {
-            var response = await fetch(`${API_BASE_URL}/students/${studentId}`, {
-                method: "DELETE",
-                headers: authHeaders()
-            });
-            var result = response.status === 204 ? {} : await response.json();
-            if (!response.ok) throw new Error(result.error || "Unable to delete student profile.");
-            clearAuthentication();
-            window.location.replace("index.html");
-        } catch (error) {
-            setMessage(error.message || "Unable to delete student profile.", false);
         }
     }
 
@@ -368,18 +267,15 @@
         try {
             var response = await fetch(`${API_BASE_URL}/profile/${studentId}`, {
                 method: "PUT",
-                headers: authHeaders(),
+                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(currentProfileData)
             });
 
             if (response.ok) {
                 console.log("Photo successfully saved to database!");
-            } else {
-                alert("Unable to save your profile picture. Please try again.");
             }
         } catch (error) {
             console.error("Failed to upload photo to database:", error);
-            alert("Unable to save your profile picture. Please try again.");
         }
     }
 
@@ -400,22 +296,9 @@
         };
 
         document.getElementById("login-form").addEventListener("submit", handleLogin);
-        document.getElementById("register-form").addEventListener("submit", handleRegister);
-        document.getElementById("show-register").addEventListener("click", function () {
-            document.getElementById("login-form").style.display = "none";
-            document.getElementById("show-register").style.display = "none";
-            document.getElementById("register-panel").classList.remove("hidden");
-        });
-        document.getElementById("show-login").addEventListener("click", function () {
-            document.getElementById("register-panel").classList.add("hidden");
-            document.getElementById("register-error").style.display = "none";
-            document.getElementById("login-form").style.display = "block";
-            document.getElementById("show-register").style.display = "block";
-        });
         document.getElementById("btn-edit").addEventListener("click", openEditForm);
         document.getElementById("btn-cancel").addEventListener("click", closeEditForm);
         document.getElementById("edit-profile-form").addEventListener("submit", saveProfile);
-        document.getElementById("btn-delete-profile").addEventListener("click", deleteProfile);
 
         checkAuth();
     }
