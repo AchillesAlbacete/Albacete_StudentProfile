@@ -1,6 +1,6 @@
-# 🎓 Achilles Student Profile (Activity 7 - Full Stack)
+#  Achilles Student Profile (Activity 7 - Full Stack)
 
-## 📖 Project Description
+##  Project Description
 
 This Apache Cordova Android application is a responsive multi-page Student Profile for Achilles A. Albacete, a Bachelor of Science in Information Technology student at Ateneo de Cagayan - Xavier University. 
 
@@ -8,7 +8,7 @@ For **Activity 7**, the application has been upgraded from local storage to a fu
 
 ---
 
-## ⚠️ INSTRUCTOR EVALUATION GUIDE: HOW TO RUN & GRADE
+##  INSTRUCTOR EVALUATION GUIDE: HOW TO RUN 
 
 Because this application uses a local Node.js backend, **the mobile app must be configured to point to your computer's local IP address** before building. Please follow these steps to test the app:
 
@@ -34,7 +34,7 @@ Because this application uses a local Node.js backend, **the mobile app must be 
 
 ---
 
-## 📱 Application Pages
+##  Application Pages
 
 - **Login/Register:** Authenticates the user against the backend database using their Student ID and hashed password. Supports new student registration.
 - **Profile (`index.html`):** Displays the profile summary fetched from the server, the remote profile photo, editable information, and the Camera integration button.
@@ -43,7 +43,7 @@ Because this application uses a local Node.js backend, **the mobile app must be 
 - **Projects (`projects.html`):** Presents academic or personal projects, roles, and technologies used.
 - **Contact (`contact.html`):** Provides contact and location information.
 
-## ⚙️ Core Features & API Integration
+##  Core Features & API Integration
 
 ### Profile Editing
 The Profile page includes an **Edit Profile** form. A student can update their full name, course, year level, About Me content, interests, educational background, goals, and skills. 
@@ -71,13 +71,13 @@ Activity 7 entirely replaces `localStorage` with a centralized backend database:
 - **Hardware Checks:** Displays appropriate messages if camera permissions are denied.
 - **Form Validation:** Prevents empty submissions and focuses the user on invalid fields before attempting API requests.
 
-## 🎨 Responsive Design
+##  Responsive Design
 
 The shared `www/style.css` stylesheet utilizes a mobile-first layout, flexible grids, relative spacing, and responsive breakpoints. Pages adapt seamlessly to phone, tablet, and desktop screens without horizontal scrolling, overlapping content, distorted images, or cut-off text.
 
 ---
 
-## 📸 Screenshots (Activity 7)
+##  Screenshots (Activity 7)
 
 The following screenshots demonstrate the client-server interaction, authentication, and remote database persistence on a physical device:
 
@@ -92,7 +92,7 @@ The following screenshots demonstrate the client-server interaction, authenticat
 
 ---
 
-## 🚀 Deployment Checklist for Activity 7
+##  Deployment Checklist for Activity 7
 
 1. Start Node.js backend server (`node server.js`).
 2. Run the `activity-7-backend` branch on a physical device (`cordova run android --device`).
@@ -106,7 +106,7 @@ The following screenshots demonstrate the client-server interaction, authenticat
 
 ---
 
-### 📂 Previous Activity References
+###  Previous Activity References
 - **Activity 6 Captures:** `activity6_SS/`
 - **Activity 5 Captures:** `activity5_SS/`
 - **Activity 4 Captures:** `activity4_SS/`
