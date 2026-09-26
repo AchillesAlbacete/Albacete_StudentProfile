@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcryptjs');
 require('dotenv').config();
@@ -12,7 +13,7 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 
 // Database Initialization
-const db = new sqlite3.Database('./student_profile.db', (err) => {
+const db = new sqlite3.Database(path.join(__dirname, 'student_profile.db'), (err) => {
     if (err) console.error("Database connection error:", err.message);
     else console.log("Connected to SQLite database.");
 });

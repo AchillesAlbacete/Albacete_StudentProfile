@@ -30,8 +30,15 @@
         if (!studentId || !password) {
             errorDiv.textContent = "Please fill in all fields.";
             errorDiv.style.display = "block";
+            errorDiv.scrollIntoView({ behavior: "smooth", block: "center" });
             return;
         }
+
+        var loginButton = document.getElementById("btn-login");
+        var originalButtonText = loginButton.textContent;
+        loginButton.disabled = true;
+        loginButton.textContent = "Connecting...";
+        errorDiv.style.display = "none";
 
         try {
             var response = await fetch(`${API_BASE_URL}/login`, {
@@ -45,6 +52,7 @@
             if (!response.ok) {
                 errorDiv.textContent = data.error || "Invalid student ID or password.";
                 errorDiv.style.display = "block";
+                errorDiv.scrollIntoView({ behavior: "smooth", block: "center" });
                 return;
             }
 
@@ -55,9 +63,13 @@
             fetchProfile(data.user.student_id);
 
         } catch (error) {
-            errorDiv.textContent = "Unable to connect to server. Check your network or IP address.";
+            errorDiv.textContent = "Cannot reach the server at " + API_BASE_URL + ". Connect this phone and computer to the same Wi-Fi and make sure the backend is running.";
             errorDiv.style.display = "block";
+            errorDiv.scrollIntoView({ behavior: "smooth", block: "center" });
             console.error(error);
+        } finally {
+            loginButton.disabled = false;
+            loginButton.textContent = originalButtonText;
         }
     }
 
@@ -71,9 +83,11 @@
 
             currentProfileData = await response.json();
             renderProfile(currentProfileData);
+            return true;
         } catch (error) {
             console.error("Fetch error:", error);
             alert("Unable to retrieve your profile from the database.");
+            return false;
         }
     }
 
@@ -93,6 +107,12 @@
             setMessage("Please enter Name, Course, and Year Level.", false);
             return;
         }
+
+        var saveButton = document.getElementById("btn-save");
+        var originalButtonText = saveButton.textContent;
+        saveButton.disabled = true;
+        saveButton.textContent = "Saving...";
+        setMessage("Saving your profile...", true);
 
         // Pack ONLY the specific 'About' sub-fields together
         var aboutObj = {
@@ -125,15 +145,19 @@
             var result = await response.json();
 
             if (response.ok) {
+                var profileLoaded = await fetchProfile(studentId);
+                if (!profileLoaded) throw new Error("Profile updated, but could not be reloaded.");
                 setMessage("Profile Updated Successfully", true);
-                fetchProfile(studentId);
                 setTimeout(closeEditForm, 1500); // Close form after 1.5 seconds
             } else {
                 setMessage(result.error || "Unable to update profile.", false);
             }
         } catch (error) {
             console.error("Save error:", error);
-            setMessage("Database connection failed.", false);
+            setMessage("Unable to update your profile. Check the server connection and try again.", false);
+        } finally {
+            saveButton.disabled = false;
+            saveButton.textContent = originalButtonText;
         }
     }
 
@@ -207,6 +231,7 @@
             errorContainer.style.color = "#d32f2f";
             errorContainer.style.backgroundColor = "#ffebee";
         }
+        errorContainer.scrollIntoView({ behavior: "smooth", block: "center" });
     }
 
     // --- CAMERA INTEGRATION ---
@@ -245,7 +270,13 @@
         alert("Unable to access the camera. Please check your device permissions. Error: " + message);
     }
 
+    // 1. A standard function for Cordova to call
     function onCameraSuccess(imageData) {
+        processAndSaveImage(imageData); // Pass it to our async handler
+    }
+
+    // 2. The async handler that does the actual work
+    async function processAndSaveImage(imageData) {
         if (!imageData) return;
 
         var cleanData = imageData.replace(/[\r\n\s]+/g, "");
@@ -254,12 +285,23 @@
             : "data:image/jpeg;base64," + cleanData;
 
         var profileImg = document.getElementById("profile-pic");
+        var previousImage = profileImg ? profileImg.src : "";
         if (profileImg) profileImg.src = imageSrc;
 
         var studentId = localStorage.getItem("authenticated_student_id");
         if (studentId && currentProfileData.name) {
+            var previousProfilePicture = currentProfileData.profile_picture;
             currentProfileData.profile_picture = imageSrc;
-            saveProfilePicture(studentId);
+            
+            var saved = await saveProfilePicture(studentId);
+            if (!saved) {
+                currentProfileData.profile_picture = previousProfilePicture;
+                if (profileImg) profileImg.src = previousImage;
+                return;
+            }
+
+            if (!await fetchProfile(studentId)) return;
+            alert("Profile picture saved successfully.");
         }
     }
 
@@ -273,9 +315,14 @@
 
             if (response.ok) {
                 console.log("Photo successfully saved to database!");
+                return true;
             }
+            alert("Unable to save your profile picture. Please try again.");
+            return false;
         } catch (error) {
             console.error("Failed to upload photo to database:", error);
+            alert("Unable to save your profile picture. Check the server connection and try again.");
+            return false;
         }
     }
 

@@ -1,4 +1,4 @@
-# 🎓 Achilles Student Profile (Activity 7 - Full Stack)
+# Achilles Student Profile (Activity 7 )
 
 ## 📖 Project Description
 
